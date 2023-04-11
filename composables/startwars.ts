@@ -1,23 +1,33 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
-export function useStarWars(entity: string) {
-  const url = `${useAppConfig().starWarsApi}/${entity}`;
+export function useStarWars() {
+  const urlBase = useAppConfig().starWarsApi;
 
-  const resource = (resource: string) => {
-    entity = resource;   
-  }
-
-  const get = async (options = { page: ref(1) }) => {
-    const { page } = options;
-
-    return await useFetch(url, {
+  const fetch = async (entity: string, page = ref(1)) => {
+    return await useFetch(`${urlBase}/${entity}`, {
       query: { page },
       pick: ["results", "count"],
     });
   };
 
-  const getById = async (id: number) => {
-    return await useFetch(`${useAppConfig().starWarsApi}/${entity}/${id}`);
+  const fetchById = async (entity: string, id: number) => {
+    return await useFetch(`${urlBase}/${entity}/${id}`);
+  };
+
+  const characters = async ({ id = null, page = ref(1) }) => {
+    return id ? fetchById("people", id) : fetch("people", page);
+  };
+
+  const planets = async ({ id = null, page = ref(1) }) => {
+    return id ? fetchById("planets", id) : fetch("planets", page);
+  };
+
+  const films = async ({ id = null, page = ref(1) }) => {
+    return id ? fetchById("films", id) : fetch("films", page);
+  };
+
+  const vehicles = async ({ id = null, page = ref(1) }) => {
+    return id ? fetchById("vehicles", id) : fetch("vehicles", page);
   };
 
   const extractId = (urlTarget: string) => {
@@ -25,5 +35,5 @@ export function useStarWars(entity: string) {
     return match?.[1];
   };
 
-  return { get, getById, extractId, resource };
+  return { characters, planets, films, vehicles, extractId };
 }
