@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-auto border-b-2">
-        <h2 class="text-3xl">Characters</h2>
+        <h2 class="text-3xl">Films</h2>
     </div>
 
     <DataTable :value="entities.results" lazy paginator :rows="10" :totalRecords="entities.count" :loading="pending"
@@ -8,7 +8,7 @@
         <Column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header"></Column>
         <Column header="Actions">
             <template #body="{ data }">
-                <NuxtLink :to="`/characters/${extractId(data.url)}`">Details</NuxtLink>
+                <NuxtLink :to="`/films/${extractId(data.url)}`">Details</NuxtLink>
             </template>
         </Column>
     </DataTable>
@@ -21,19 +21,19 @@ definePageMeta({
 })
 
 const columns = [
-    { field: 'name', header: 'Name' },
-    { field: 'gender', header: 'Gender' },
-    { field: 'mass', header: 'Mass' },
-    { field: 'height', header: 'Heigth' },
-    { field: 'hair_color', header: 'Hair Color' },
+    { field: 'episode_id', header: 'Episode' },
+    { field: 'title', header: 'Title' },
+    { field: 'director', header: 'Director' },
+    { field: 'producer', header: 'Producer' },
+    { field: 'release_date', header: 'Release Date' },
     { field: 'skin_color', header: 'Skin Color' },
 ];
 
 const page = ref(1);
 
-const { characters, extractId } = useStarWars();
+const { films, extractId } = useStarWars();
 
-const { data: entities, pending } = await characters({ page });
+const { data: entities, pending } = await films({ page });
 
 const changePage = (event) => {
     page.value = event.page + 1;

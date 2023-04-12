@@ -30,10 +30,14 @@ export function useStarWars() {
     return id ? fetchById("vehicles", id) : fetch("vehicles", page);
   };
 
+  const starships = async ({ id = null, page = ref(1) }) => {
+    return id ? fetchById("starships", id) : fetch("starships", page);
+  };
+
   const extractId = (urlTarget: string) => {
     const match = /(\d+)/i.exec(urlTarget);
     return match?.[1];
   };
 
-  return { characters, planets, films, vehicles, extractId };
+  return { characters, planets, films, vehicles, starships, extractId };
 }

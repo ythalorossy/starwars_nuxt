@@ -83,7 +83,7 @@
         const {data: film} = await films({id: filmId});
         return film.value;
     }));
-// console.log(listOfFilms)
+
     const listOfVehicles = await Promise.all( character.value.vehicles.map(async filmUrl => {
         const {data: vehicle} = await vehicles({ id: extractId(filmUrl) });
         return vehicle.value;
