@@ -9,12 +9,7 @@
         :loading="pending"
         @page="changePage"
         tableStyle="min-width: 50rem">
-        <Column field="name" header="Name"></Column>
-        <Column field="gender" header="Gender"></Column>
-        <Column field="mass" header="Mass"></Column>
-        <Column field="height" header="Height"></Column>
-        <Column field="hair_color" header="Hair Color"></Column>
-        <Column field="skin_color" header="Skin Color"></Column>
+        <Column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header"></Column>
         <Column header="Actions">
             <template #body="{ data }">
                 <NuxtLink :to="`/characters/${extractId(data.url)}`">Details</NuxtLink>
@@ -29,6 +24,15 @@ import { useStarWars } from "@/composables/startwars";
 definePageMeta({
     layout: "characters"
 })
+
+const columns = [
+    { field: 'name', header: 'Nae' },
+    { field: 'gender', header: 'Gender' },
+    { field: 'mass', header: 'Mass' },
+    { field: 'height', header: 'Heigth' },
+    { field: 'hair_color', header: 'Hair Color' },
+    { field: 'skin_color', header: 'Skin Color' },
+];
 
 const page = ref(1);
 
